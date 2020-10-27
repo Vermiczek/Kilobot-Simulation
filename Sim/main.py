@@ -26,6 +26,7 @@ def checkPlacementCollision(array, X, Y):
 def reddrawWindow():
     screen.fill((255,255,255))
     resetButton.draw(screen, (0,0,0))
+    startButton.draw(screen, (0,0,0))
 
 resx = 800
 resy= 600
@@ -37,6 +38,7 @@ kilobots = []
 
 #tworzenie przycisku reset
 resetButton = button((0,255,0), 0, 550, 100, 50, 'Reset')
+startButton = button((0,255,0), 120, 550, 100, 50, 'Start')
 
 # glowna pętla
 running = True
@@ -65,5 +67,7 @@ while running:
             if resetButton.isOver(pos):
                 print('clicked reset button')
                 kilobots.clear()
+            if startButton.isOver(pos):
+                print('clicked start button')
 
     pygame.display.update()
