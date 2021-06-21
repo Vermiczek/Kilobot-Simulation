@@ -446,20 +446,19 @@ def kilobotNeuralmovement_learning(enableTag, kilobot, screen, value):
     # check if movement in simulation is enabled
     if enableTag:
 
-        # # Normalization
-        # if value == 0:
-        #     Motorval = 127
-        # if value == 1:
-        #     Motorval = 255
-        # if value == -1:
-        #     Motorval = 0
-        Motorval=value
+        # Normalization
+        if value == 0:
+            Motorval = 127
+        if value == 1:
+            Motorval = 255
+        if value == -1:
+            Motorval = 0
 
         # option for 127 outputs of NN
         # Motorval=value*2
 
         # settig new value for Motor M2
-        kilobot.MotorsMoveKilobot_learn(127, Motorval, 0.5)
+        kilobot.MotorsMoveKilobot_older(127, Motorval, 0.1)
 
         kilobot.drawKilobot(screen)
 

@@ -9,7 +9,9 @@ import matplotlib.pyplot as plt
 # inicjalizacja biblioteki
 pygame.init()
 
-# FoodFinding.Control()
+#press 0 for fuzzy movement (doesn't work), 1 for food search, 2 for line movement
+#place kilobots with left mouse button, place food with space button
+FoodFinding.Control()
 
 #####################################################################################################
 # creating shapes algorithm

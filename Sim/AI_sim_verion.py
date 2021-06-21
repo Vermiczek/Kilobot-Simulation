@@ -31,9 +31,9 @@ def run(config_file):
                                 config_file)
 
     # Create the population, which is the top-level object for a NEAT run.
-    #p = neat.Population(config)
+    p = neat.Population(config)
     # Create the population from checkpoint
-    p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-983')
+    #p = neat.Checkpointer.restore_checkpoint('neat-checkpoint-912')
 
     # Add a stdout reporter to show progress in the terminal.
     p.add_reporter(neat.StdOutReporter(True))
@@ -43,11 +43,11 @@ def run(config_file):
     stats = neat.StatisticsReporter()
     p.add_reporter(stats)
     # set number of data to save
-    p.add_reporter(neat.Checkpointer(20, None))
+    p.add_reporter(neat.Checkpointer(1, None))
 
 
     # Run for up to x generations.
-    winner = p.run(ai_neural_regulator, 600)
+    winner = p.run(ai_neural_regulator, 1)
 
     # visualisation(doesn`t work)
     # visualize.draw_net(config, winner, True)
@@ -479,11 +479,8 @@ def ai_neural_regulator(genomes, config):
             # calculate sum of errors
             kilobot.avg_error = kilobot.avg_error + abs(distnace - kilobot.inIRRangeFoodID[closestFood][1])
 
-            Pinput=kilobot.calcP(distnace,kilobot.inIRRangeFoodID[closestFood][1])
-            Iinput = kilobot.calcI(distnace, kilobot.inIRRangeFoodID[closestFood][1],255,0,1)
-            Dinput = kilobot.calcD(distnace, kilobot.inIRRangeFoodID[closestFood][1], 255, 0, 1)
             # calculate net`s output
-            output = nets[x].activate([Pinput,Iinput,Dinput])
+            output = nets[x].activate([fitness, kilobot.inIRRangeFoodID[closestFood][1]])
 
             # update vector of seen food
             if kilobot.Foodseen[kilobot.idx] != closestFood:
@@ -495,21 +492,21 @@ def ai_neural_regulator(genomes, config):
             max_index = output.index(max_value)
 
             # perform actions for 127 outputs
-            for i in range(0, 255):
-                if max_index == i and output[i] > 0.5:
-                    output_val = i
+            # for i in range(0, 127):
+            #     if max_index == i and output[i] > 0.5:
+            #         output_val = i
 
-            # # perform actions for 3 outputs
-            # if max_index==0 and output[0] > 0.5:
-            #     output_val = 0
-            # if max_index==1 and output[1] > 0.5:
-            #     output_val = 1
-            # if max_index==2 and output[2] > 0.5:
-            #     output_val = -1
-            # if max_index==3 and output[3] > 0.5:
-            #     output_val = 0.5
-            # if max_index==4 and output[4] > 0.5:
-            #     output_val = -0.5
+            # perform actions for 3 outputs
+            if max_index==0 and output[0] > 0.5:
+                output_val = 0
+            if max_index==1 and output[1] > 0.5:
+                output_val = 1
+            if max_index==2 and output[2] > 0.5:
+                output_val = -1
+            if max_index==3 and output[3] > 0.5:
+                output_val = 0.5
+            if max_index==4 and output[4] > 0.5:
+                output_val = -0.5
             # pass control value to motors control function
             Movement.kilobotNeuralmovement_learning(enable, kilobot, screen, output_val)
 

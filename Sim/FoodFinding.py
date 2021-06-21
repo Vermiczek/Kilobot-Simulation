@@ -16,6 +16,7 @@ resy = 800
 
 screen = pygame.display.set_mode((resx, resy))
 
+
 def Control():
     global FoodID, kilobotID, kilobotsNumber, FoodNumber
     # creating config data
@@ -66,7 +67,7 @@ def Control():
             t, enable, t_pause, kilobots, Foods, kilobotID, kilobotsNumber, FoodID, FoodNumber, startButton,
             pauseButton, resetButton, space, currentAlghoritm, wallsBuilt)
 
-        time=int(t.read_time())
+        time = int(t.read_time())
 
         # update list of food in range
         for itr in kilobots:
@@ -85,13 +86,12 @@ def Control():
         BasicFunc.detectFoodsInIRRange(kilobots, Foods)
         BasicFunc.detectKilobotsInIRRange(kilobots)
 
-
         # pid movment of kilobots
         if currentAlghoritm == 1:
-            #Movement.kilobotsMovementSnake(enable, kilobots)
+            # Movement.kilobotsMovementSnake(enable, kilobots)
             Movement.kilobotsFoodFindingMovement(enable, kilobots, Foods, screen, time)
         if currentAlghoritm == 0:
-            #Movement.kilobotsPIDmovement(enable, kilobots, screen)
+            # Movement.kilobotsPIDmovement(enable, kilobots, screen)
             Movement.FuzzyFoodMovement(enable, kilobots, screen, time)
         if currentAlghoritm == 2:
             Movement.kilobotsMovementSnake(enable, kilobots)
@@ -102,12 +102,9 @@ def Control():
         kilobotClass.drawKilobots(kilobots, screen)
         kilobotClass.drawKilobots(Foods, screen)
 
-
-
         # setting number of kilobots in simulation
         numberView.text = str(kilobotsNumber)
         timeView.text = str(t.read_time())
-
 
         # drawing other objects
         BasicFunc.drawWalls(screen, resx, resy)
